@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Debug Round – CodeCraft 2026{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">
+      <i class="bi bi-bug-fill text-danger me-2"></i>
+      Round 2 – Debugging (10 Problems)
+    </h2>
+    <div class="badge bg-warning fs-5 px-4 py-2" id="timer">
+      <i class="bi bi-stopwatch me-1"></i><span>30:00</span>
+    </div>
+  </div>
+
+  <div class="alert alert-info mb-4">
+    Fix the bug in each code snippet. Write the corrected version.
+  </div>
+
+  <form method="POST" action="{{ url_for('submit_debug') }}">
+    {% for q in debug_items %}
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-danger text-white">
+        Problem {{ loop.index }}: {{ q.title }}
+      </div>
+      <div class="card-body">
+        <pre><code class="language-python hljs">{{ q.buggy_code | safe }}</code></pre>
+        <textarea name="{{ q.id }}" class="form-control font-monospace mt-3" rows="8"
+                  placeholder="Write corrected code here..." required></textarea>
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="text-center mt-5">
+      <button type="submit" class="btn btn-success btn-lg px-5 py-3">
+        <i class="bi bi-check-circle-fill me-2"></i> Submit Debug Solutions
+      </button>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+hljs.highlightAll();
+
+// 30-minute timer
+let time = 30 * 60;
+const timerEl = document.querySelector('#timer span');
+const timer = setInterval(() => {
+  if (time <= 0) {
+    clearInterval(timer);
+    timerEl.textContent = "Time Up!";
+    timerEl.parentElement.classList.add('bg-danger');
+    return;
+  }
+  time--;
+  let m = Math.floor(time / 60);
+  let s = time % 60;
+  timerEl.textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}, 1000);
+</script>
+{% endblock %}

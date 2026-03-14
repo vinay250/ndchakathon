@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Live Leaderboard – CodeCraft 2026{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-8">
+
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <h2 class="mb-0">
+          <i class="bi bi-trophy-fill text-warning me-2"></i>
+          Live Leaderboard
+        </h2>
+        <div class="d-flex gap-3 align-items-center">
+          <span class="badge bg-secondary fs-6 px-3 py-2">
+            Top {{ rankings|length|default(0) }} Teams
+          </span>
+          <span class="badge bg-info fs-6 px-3 py-2">
+            Updated: {{ current_time }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Leaderboard Card -->
+      <div class="card shadow border-0 overflow-hidden">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-dark table-hover table-striped align-middle mb-0">
+              <thead class="bg-primary text-white">
+                <tr class="text-center">
+                  <th style="width: 80px;">Rank</th>
+                  <th>Team Name</th>
+                  <th>Quiz</th>
+                  <th>Debug</th>
+                  <th>Coding</th>
+                  <th class="fw-bold">Total</th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                {% if rankings and rankings|length > 0 %}
+                  {% for item in rankings %}
+                    {% set rank = loop.index %}
+                    <tr {% if rank <= 3 %}class="table-warning text-dark fw-bold"{% endif %}>
+                      <td class="fs-4">
+                        {% if rank == 1 %}
+                          <i class="bi bi-trophy-fill text-warning"></i>
+                        {% elif rank == 2 %}
+                          <i class="bi bi-trophy-fill text-secondary"></i>
+                        {% elif rank == 3 %}
+                          <i class="bi bi-trophy-fill text-bronze"></i>
+                        {% else %}
+                          {{ rank }}
+                        {% endif %}
+                      </td>
+                      <td class="text-start fw-medium">{{ item.team_name }}</td>
+                      <td>{{ item.quiz_score|default(0) }}</td>
+                      <td>{{ item.debug_score|default(0) }}</td>
+                      <td>{{ item.coding_score|default(0) }}</td>
+                      <td class="fs-4 fw-bold">{{ item.total_score|default(0) }}</td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="6" class="py-5 text-center text-muted">
+                      <i class="bi bi-emoji-neutral-fill fs-1 me-2"></i><br>
+                      No teams have scores yet.<br>
+                      <small>Complete quiz, debug or coding rounds to appear here</small>
+                    </td>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer text-center text-muted small bg-transparent border-0">
+          Last updated: {{ current_time }} • 
+          <a href="{{ url_for('leaderboard') }}" class="text-info text-decoration-none">
+            Refresh now
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

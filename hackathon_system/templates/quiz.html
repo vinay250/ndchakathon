@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz Round – CodeCraft 2026{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">
+    <i class="bi bi-question-circle-fill text-primary me-2"></i>
+    Round 1 – Programming Quiz (15 Questions)
+  </h2>
+
+  <div class="alert alert-info mb-4">
+    Choose the correct option for each question. You can go back and change answers.
+  </div>
+
+  <form method="POST" action="{{ url_for('submit_quiz') }}" id="quiz-form">
+    {% for q in questions %}
+    <div class="card mb-4 shadow-sm question-card" id="q{{ q.id }}" style="display: {% if loop.first %}block{% else %}none{% endif %}">
+      <div class="card-header bg-primary text-white d-flex justify-content-between">
+        <span>Question {{ loop.index }} / 15</span>
+        <span>Topic: Programming Basics</span>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title mb-4">{{ q.question }}</h5>
+
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="radio" name="q{{ q.id }}" id="qa{{ q.id }}" value="A" required>
+          <label class="form-check-label" for="qa{{ q.id }}">{{ q.option_a }}</label>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="radio" name="q{{ q.id }}" id="qb{{ q.id }}" value="B">
+          <label class="form-check-label" for="qb{{ q.id }}">{{ q.option_b }}</label>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="radio" name="q{{ q.id }}" id="qc{{ q.id }}" value="C">
+          <label class="form-check-label" for="qc{{ q.id }}">{{ q.option_c }}</label>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="radio" name="q{{ q.id }}" id="qd{{ q.id }}" value="D">
+          <label class="form-check-label" for="qd{{ q.id }}">{{ q.option_d }}</label>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    <!-- Navigation & Submit -->
+    <div class="d-flex justify-content-between mt-5">
+      <button type="button" class="btn btn-outline-secondary btn-lg px-5" id="prev-question" disabled>
+        <i class="bi bi-arrow-left me-2"></i> Previous
+      </button>
+      <button type="button" class="btn btn-primary btn-lg px-5" id="next-question">
+        Next <i class="bi bi-arrow-right ms-2"></i>
+      </button>
+    </div>
+
+    <div class="text-center mt-4 d-none" id="submit-section">
+      <button type="submit" class="btn btn-success btn-lg px-5 py-3">
+        <i class="bi bi-check-circle-fill me-2 fs-4"></i> Submit All Answers
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+// Simple single-question navigation
+let currentQ = 0;
+const totalQ = {{ questions|length }};
+const questions = document.querySelectorAll('.question-card');
+const prevBtn = document.getElementById('prev-question');
+const nextBtn = document.getElementById('next-question');
+const submitSec = document.getElementById('submit-section');
+
+function showQuestion(idx) {
+  questions.forEach((q, i) => {
+    q.style.display = i === idx ? 'block' : 'none';
+  });
+  prevBtn.disabled = idx === 0;
+  nextBtn.textContent = idx === totalQ - 1 ? "Review & Submit" : "Next";
+  submitSec.classList.toggle('d-none', idx !== totalQ - 1);
+}
+
+nextBtn.addEventListener('click', () => {
+  if (currentQ < totalQ - 1) {
+    currentQ++;
+    showQuestion(currentQ);
+  }
+});
+
+prevBtn.addEventListener('click', () => {
+  if (currentQ > 0) {
+    currentQ--;
+    showQuestion(currentQ);
+  }
+});
+
+// Start with first question
+showQuestion(0);
+</script>
+{% endblock %}

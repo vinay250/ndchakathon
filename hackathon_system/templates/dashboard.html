@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard – CodeCraft 2026{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">
+    <i class="bi bi-speedometer2 text-success me-2"></i>
+    Team Dashboard – {{ user.team_name }}
+  </h2>
+
+  <!-- Quick links to attend rounds -->
+  <div class="row g-4 mb-5">
+    <!-- Quiz Card -->
+    <div class="col-md-4">
+      <div class="card text-center shadow border-primary h-100">
+        <div class="card-header bg-primary text-white">
+          Quiz Round (15 Questions)
+        </div>
+        <div class="card-body d-flex flex-column justify-content-between">
+          <h3 class="display-5 fw-bold">{{ score.quiz_score|default(0) }}/15</h3>
+          <p class="text-muted mt-3">
+            {% if score.quiz_score|default(0) == 0 %}
+              Not attempted yet
+            {% else %}
+              Completed
+            {% endif %}
+          </p>
+          <a href="{{ url_for('quiz') }}" class="btn btn-primary mt-3">
+            <i class="bi bi-play-fill me-2"></i> Attend Quiz
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Debug Card -->
+    <div class="col-md-4">
+      <div class="card text-center shadow border-danger h-100">
+        <div class="card-header bg-danger text-white">
+          Debug Round (10 Problems)
+        </div>
+        <div class="card-body d-flex flex-column justify-content-between">
+          <h3 class="display-5 fw-bold">{{ score.debug_score|default(0) }}/10</h3>
+          <p class="text-muted mt-3">
+            {% if score.debug_score|default(0) == 0 %}
+              Not attempted yet
+            {% else %}
+              Completed
+            {% endif %}
+          </p>
+          <a href="{{ url_for('debug') }}" class="btn btn-danger mt-3">
+            <i class="bi bi-play-fill me-2"></i> Attend Debug
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coding Card -->
+    <div class="col-md-4">
+      <div class="card text-center shadow border-success h-100">
+        <div class="card-header bg-success text-white">
+          Coding Round (10 Problems)
+        </div>
+        <div class="card-body d-flex flex-column justify-content-between">
+          <h3 class="display-5 fw-bold">{{ score.coding_score|default(0) }}/10</h3>
+          <p class="text-muted mt-3">
+            {% if score.coding_score|default(0) == 0 %}
+              Not attempted yet
+            {% else %}
+              Completed
+            {% endif %}
+          </p>
+          <a href="{{ url_for('coding') }}" class="btn btn-success mt-3">
+            <i class="bi bi-play-fill me-2"></i> Attend Coding
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total Score -->
+  <div class="card shadow mb-5">
+    <div class="card-header bg-dark text-white text-center">
+      <h4>Total Score</h4>
+    </div>
+    <div class="card-body text-center">
+      <h1 class="display-3 fw-bold text-primary">{{ score.total_score|default(0) }}</h1>
+      <p class="lead mt-3">
+        {% if score.total_score|default(0) == 0 %}
+          Complete all rounds to see your rank!
+        {% else %}
+          Keep going – improve your rank!
+        {% endif %}
+      </p>
+    </div>
+  </div>
+
+  <!-- Leaderboard Link -->
+  <div class="text-center">
+    <a href="{{ url_for('leaderboard') }}" class="btn btn-lg btn-warning px-5 py-3">
+      <i class="bi bi-trophy-fill me-2"></i> View Live Leaderboard
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel – NDC CodeCraft 2026{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">
+  <i class="bi bi-gear-fill me-2"></i>
+  Admin Control Panel
+</h2>
+
+<ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="scores-tab" data-bs-toggle="tab" data-bs-target="#scores" type="button" role="tab">Scores</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="teams-tab" data-bs-toggle="tab" data-bs-target="#teams" type="button" role="tab">Teams</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="questions-tab" data-bs-toggle="tab" data-bs-target="#questions" type="button" role="tab">Questions</button>
+  </li>
+</ul>
+
+<div class="tab-content">
+  <!-- Scores Tab -->
+  <div class="tab-pane fade show active" id="scores" role="tabpanel">
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        Update Team Scores
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover table-dark mb-0">
+            <thead>
+              <tr>
+                <th>Team Name</th>
+                <th class="text-center">Quiz</th>
+                <th class="text-center">Debug</th>
+                <th class="text-center">Coding</th>
+                <th class="text-center">Total</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- In real app this would be looped from backend data -->
+              <tr>
+                <td>Syntax Slayers</td>
+                <td class="text-center"><input type="number" class="form-control form-control-sm text-center" value="12"></td>
+                <td class="text-center"><input type="number" class="form-control form-control-sm text-center" value="18"></td>
+                <td class="text-center"><input type="number" class="form-control form-control-sm text-center" value="35"></td>
+                <td class="text-center fw-bold">65</td>
+                <td><button class="btn btn-sm btn-success">Save</button></td>
+              </tr>
+              <!-- more rows... -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Teams Tab -->
+  <div class="tab-pane fade" id="teams" role="tabpanel">
+    <div class="card shadow">
+      <div class="card-header bg-info text-dark">
+        Registered Teams
+      </div>
+      <div class="card-body">
+        <table class="table table-dark table-hover">
+          <thead>
+            <tr>
+              <th>Team Name</th>
+              <th>Username</th>
+              <th>Registered</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Code Crusaders</td>
+              <td>teamalpha</td>
+              <td>2026-03-14 10:45</td>
+              <td><span class="badge bg-success">Active</span></td>
+            </tr>
+            <!-- more rows -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Questions Tab -->
+  <div class="tab-pane fade" id="questions" role="tabpanel">
+    <div class="card shadow mb-4">
+      <div class="card-header bg-warning text-dark">
+        Manage Quiz Questions
+      </div>
+      <div class="card-body">
+        <button class="btn btn-primary mb-3"><i class="bi bi-plus-lg me-2"></i>Add New Question</button>
+        <table class="table table-dark table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Question</th>
+              <th>Correct</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>What keyword defines function in Python?</td>
+              <td>B</td>
+              <td>
+                <button class="btn btn-sm btn-outline-info">Edit</button>
+                <button class="btn btn-sm btn-outline-danger">Delete</button>
+              </td>
+            </tr>
+            <!-- more rows -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card shadow">
+      <div class="card-header bg-secondary text-white">
+        Manage Debugging / Coding Problems
+      </div>
+      <div class="card-body">
+        <p class="text-muted">Similar interface for debug & coding prompts (expand later)</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
