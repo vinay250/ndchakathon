@@ -12,7 +12,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "database2.db")
+DB_PATH = os.path.join(os.path.dirname(__file__), "database3.db")
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
@@ -88,22 +88,44 @@ def init_db():
         # Quiz – 15 questions (fixed: every row has exactly 6 values)
         if not db.execute("SELECT 1 FROM quiz_questions LIMIT 1").fetchone():
             quiz = [
-                ("Which keyword defines function in Python?", "func", "def", "function", "define", "B"),
-                ("Output of 5 // 2 ?", "2.5", "2", "3", "error", "B"),
-                ("Print function in C?", "scanf", "printf", "print", "cout", "B"),
-                ("Java inheritance keyword?", "extends", "inherit", "super", "this", "A"),
-                ("Immutable Python collection?", "List", "Tuple", "Set", "Dictionary", "B"),
-                ("Equality operator Python?", "=", "==", "===", "!=", "B"),
-                ("FIFO structure?", "Stack", "Queue", "List", "Array", "B"),
-                ("len('BCA')?", "2", "3", "4", "5", "C"),
-                ("Conditional keyword?", "loop", "if", "case", "switch", "B"),
-                ("2 ** 3 result?", "6", "8", "9", "4", "B"),
-                ("Loop runs once?", "for", "while", "do while", "foreach", "C"),
-                ("Key value collection?", "List", "Tuple", "Dictionary", "Set", "C"),
-                ("print(10>5)?", "True", "False", "0", "Error", "A"),
-                ("End of C statement?", ";", ":", "!", "?", "A"),
-                ("Logical AND in C?", "&", "&&", "||", "!", "B")
-            ]
+    # Python Questions
+    ("Which of the following is used to define a function in Python?", "func", "def", "function", "define", "B"),
+    ("Which data type is immutable in Python?", "List", "Tuple", "Dictionary", "Set", "B"),
+    ("What is the output of print(2 * 3 ** 2)?", "36", "18", "12", "None", "B"),
+    ("Which operator is used for floor division in Python?", "/", "//", "%", "**", "B"),
+    ("How do you start a comment in Python?", "//", "#", "/*", "<!--", "B"),
+    ("Which of the following is used to take input in Python?", "cin", "scanf", "input()", "read()", "C"),
+    ("Which Python keyword is used for conditional branching?", "loop", "if", "case", "switch", "B"),
+    ("What will len('Hello World') return?", "10", "11", "12", "None", "B"),
+    ("Which of the following is a mutable collection?", "Tuple", "String", "List", "int", "C"),
+    ("Which operator checks equality in Python?", "=", "==", "===", "!=", "B"),
+
+    # C Questions
+    ("Which of the following is the correct syntax to print in C?", "printf()", "cout", "print()", "echo()", "A"),
+    ("Which symbol ends a statement in C?", ".", ";", ":", "!", "B"),
+    ("Which operator is used for logical AND in C?", "&", "&&", "||", "!", "B"),
+    ("What is the correct syntax for a single-line comment in C?", "// comment", "# comment", "/* comment */", "<!-- comment -->", "A"),
+    ("Which data type stores floating-point numbers in C?", "int", "char", "float", "double", "C"),
+    ("Which loop executes at least once in C?", "for", "while", "do-while", "foreach", "C"),
+    ("Which of the following is used for input in C?", "scanf", "cin", "input()", "read()", "A"),
+    ("What is the result of 5 % 2 in C?", "1", "2", "2.5", "0", "A"),
+    ("Which header file is required for printf and scanf?", "stdlib.h", "stdio.h", "conio.h", "math.h", "B"),
+    ("What is the correct way to declare an integer variable in C?", "int x;", "integer x;", "var x;", "num x;", "A"),
+
+    # Java Questions
+    ("Which keyword is used for inheritance in Java?", "inherit", "super", "extends", "this", "C"),
+    ("Which of the following is a wrapper class in Java?", "Integer", "int", "String", "double", "A"),
+    ("Which operator is used for comparison in Java?", "==", "=", "===", "!=", "A"),
+    ("What is the size of int in Java?", "2 bytes", "4 bytes", "8 bytes", "Depends on OS", "B"),
+    ("Which method is the entry point of a Java program?", "main()", "start()", "run()", "init()", "A"),
+    ("Which keyword prevents inheritance of a class in Java?", "static", "final", "private", "protected", "B"),
+    ("Which of the following is used to create objects in Java?", "new", "create", "init", "object", "A"),
+    ("Which of the following is true for Java arrays?", "Arrays are immutable", "Arrays can change size dynamically", "Arrays have fixed size", "Arrays cannot store objects", "C"),
+    ("Which access modifier makes members accessible only within the same class?", "public", "private", "protected", "default", "B"),
+    ("Which keyword is used to handle exceptions in Java?", "try", "catch", "finally", "All of the above", "D")
+]
+
+
             db.executemany(
                 "INSERT INTO quiz_questions(question, option_a, option_b, option_c, option_d, correct_option) VALUES(?,?,?,?,?,?)",
                 quiz
@@ -112,16 +134,16 @@ def init_db():
         if not db.execute("SELECT 1 FROM debug_questions LIMIT 1").fetchone():
 
             debug = [
-("Missing colon in if","if x > 5\n    print(x)","if x > 5:"),
-("Unclosed string","print('Hello)","'Hello'"),
-("Missing semicolon","printf('Hi')",";"),
-("Wrong indentation","def func():\nprint('hi')","    print"),
-("== vs =","if a = 5:","=="),
-("List index error","lst = [1,2,3]\nprint(lst[3])","[2]"),
-("No return type","int add(a, b) { return a+b }","int a"),
-("Java class mismatch","public class hello {","Hello"),
-("C pointer wrong","int *p = 10;","&"),
-("Python tuple mutable","t = (1,2)\nt[0] = 5","list")
+    ("Missing parentheses in print", "print 'Hello World'", "print('Hello World')"),
+    ("Unclosed bracket", "lst = [1, 2, 3\nprint(lst)", "]"),
+    ("Wrong operator", "if x => 10:\n    print(x)", ">="),
+    ("Variable not defined", "print(y)", "y = value"),
+    ("Incorrect indentation", "for i in range(5):\nprint(i)", "    print(i)"),
+    ("Integer division mistake", "result = 5 / 2", "5 // 2"),
+    ("Missing return statement", "def add(a,b):\nc = a+b", "return c"),
+    ("C missing semicolon", "int x = 5\nprintf('%d', x);", ";"),
+    ("Java wrong method signature", "public static void main(String args) {}", "String[] args"),
+    ("Python immutable tuple", "t = (1,2,3)\nt[1] = 5", "Use list instead of tuple")
 ]
 
             db.executemany(
@@ -132,17 +154,17 @@ def init_db():
         # Coding – 10 questions with keywords
         if not db.execute("SELECT 1 FROM coding_questions LIMIT 1").fetchone():
             coding = [
-                ("Even or Odd", "Check if number is even or odd", "%, even, odd"),
-                ("Sum of digits", "Sum digits of number", "% 10, // 10"),
-                ("Palindrome string", "Check string palindrome", "reverse, ==, slicing"),
-                ("Prime check", "Check if number is prime", "for, range, % i == 0"),
-                ("Fibonacci n terms", "Print first n Fibonacci", "loop, a b, a+b"),
-                ("Factorial", "Compute n!", "for, range, multiply"),
-                ("Reverse number", "Reverse digits", "while, % 10, // 10"),
-                ("Count vowels", "Count vowels in string", "for, in 'aeiou'"),
-                ("Max in list", "Find max number in list", "max, for, >"),
-                ("Armstrong number", "Check Armstrong number", "while, ** 3, sum")
-            ]
+    ("Even or Odd", "Check if a number is even or odd", "%, if, else"),
+    ("Sum of digits", "Compute the sum of digits of a number", "% 10, // 10, while"),
+    ("Palindrome string", "Check if a string is a palindrome", "reverse, ==, slicing"),
+    ("Prime check", "Check if a number is prime", "for, range, % i == 0"),
+    ("Fibonacci n terms", "Print first n Fibonacci numbers", "loop, a, b, a+b"),
+    ("Factorial", "Compute factorial of n", "for, range, multiply"),
+    ("Reverse number", "Reverse digits of a number", "while, % 10, // 10"),
+    ("Count vowels", "Count vowels in a string", "for, in 'aeiou', if"),
+    ("Max in list", "Find maximum number in a list", "max, for, if, >"),
+    ("Armstrong number", "Check if a number is an Armstrong number", "while, **, sum")
+]
             db.executemany(
                 "INSERT INTO coding_questions(title, description, keywords) VALUES(?,?,?)",
                 coding
@@ -231,7 +253,7 @@ def dashboard():
 @login_required
 def quiz():
     with get_db() as db:
-        questions = [dict(row) for row in db.execute("SELECT * FROM quiz_questions LIMIT 15").fetchall()]
+        questions = [dict(row) for row in db.execute("SELECT * FROM quiz_questions LIMIT 30").fetchall()]
     return render_template("quiz.html", questions=questions)
 
 @app.route("/submit_quiz", methods=["POST"])
@@ -257,7 +279,7 @@ def submit_quiz():
             WHERE team_name = ?
         """, (score, score, datetime.now(), current_user.team_name))
         db.commit()
-    flash(f"Quiz done → {score}/15", "success")
+    flash(f"Quiz done → {score}/30", "success")
     return redirect(url_for("dashboard"))
 
 @app.route("/debug")
